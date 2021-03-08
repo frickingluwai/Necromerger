@@ -11,7 +11,8 @@ public class EnemyHealth : MonoBehaviour
     public bool hit;
     public float knockbackTime;
     public GameObject hitParticle;
-
+    public bool selected;
+    public Animator selectDisplay;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +21,9 @@ public class EnemyHealth : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody2D>();
     }
 
+    private void Update() {
+        selectDisplay.SetBool("Selected", selected);
+    }
     // Called when hit by player
     public IEnumerator OnHit(int damage, float knockback, Vector2 direction)
     {

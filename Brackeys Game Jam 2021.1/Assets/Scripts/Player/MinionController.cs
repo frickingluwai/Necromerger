@@ -5,14 +5,19 @@ using UnityEngine;
 public class MinionController : MonoBehaviour
 {
     public enum minionType {Level1, Level2, Level3, Level4 };
+
+    [Header("References")]
     private Rigidbody2D rb;
     private GameObject Player;
     private SpriteRenderer sr;
     private Animator anim;
+    public Animator selectDisplay;
     public Vector2 target;
     public float spawnTime;
 
+
     [Header("General Settings")]
+    public bool selected;
     public minionType type;
     public Vector2 mainVelocity;
     public bool merge;
@@ -20,9 +25,11 @@ public class MinionController : MonoBehaviour
     public bool active;
     public Vector2 currentDirection;
 
+
     [Header("Movement Settings")]
     public float movementSpeed;
     public float targetMaxDistance;
+
 
     [Header("Attack Settings")]
     public GameObject enemyTarget;
@@ -71,6 +78,8 @@ public class MinionController : MonoBehaviour
         {
             transform.position = Player.GetComponent<PlayerController>().weapon.transform.position;
         }
+
+        selectDisplay.SetBool("Selected" , selected);
     }
 
     void Animators()
@@ -109,18 +118,12 @@ public class MinionController : MonoBehaviour
         }
     }
 
+    // Main function
     void Main()
     {
         if (!merge && !attacking)
         {
-            if (Vector2.Distance(transform.position, target) < targetMaxDistance)
-            {
-                Attack();
-            }
-            else
-            {
-                FollowTarget();
-            }
+            Attack();
 
             Repel();
         }
@@ -132,31 +135,40 @@ public class MinionController : MonoBehaviour
     }
     void Attack()
     {
-        Collider2D[] nearbyEnemies = Physics2D.OverlapCircleAll(gameObject.GetComponent<BoxCollider2D>().bounds.center, attackDetectionDistance, enemyLayer);
-        if (nearbyEnemies.Length > 0)
-        {
-            GameObject closestEnemy = nearbyEnemies[0].gameObject;
-            foreach (Collider2D enemy in nearbyEnemies)
-            {
-                 closestEnemy = enemy.gameObject;
-            }
-            enemyTarget = closestEnemy;
+        // Attacking  
 
-            
+        if (enemyTarget != null){
+            target = enemyTarget.transform.position;
+
+            // If not in renge of the enemy, follow enemy
             if (Vector2.Distance(transform.position, enemyTarget.transform.position) > attackDistance)
             {
                 Vector2 direction = new Vector2(enemyTarget.transform.position.x - transform.position.x, enemyTarget.transform.position.y - transform.position.y).normalized;
 
                 mainVelocity = movementSpeed * direction;
             }
+            // If in range, attack
             else
             {
                 StartCoroutine(Attacking());
-            }        
+            }  
         }   
-        else
-        {
+        // If a target is not currently selected
+        else{
+            
             FollowTarget();
+            
+            // Find nearby enemies and if there is a neaby enemy, set the current enemy to it
+            Collider2D[] nearbyEnemies = Physics2D.OverlapCircleAll(gameObject.GetComponent<BoxCollider2D>().bounds.center, attackDetectionDistance, enemyLayer);
+            if (nearbyEnemies.Length > 0)
+            {
+              GameObject closestEnemy = nearbyEnemies[0].gameObject;
+             foreach (Collider2D enemy in nearbyEnemies)
+              {
+                 closestEnemy = enemy.gameObject;
+                }
+               enemyTarget = closestEnemy;
+            } 
         }
 
         
@@ -187,6 +199,7 @@ public class MinionController : MonoBehaviour
         yield return new WaitForSeconds(attackSpeed);
         attacking = false;
     }
+
     void FollowTarget()
     {
         Vector2 direction = new Vector2(target.x - transform.position.x, target.y - transform.position.y).normalized;
