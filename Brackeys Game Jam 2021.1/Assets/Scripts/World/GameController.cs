@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
     [Header("Minion Settings")]
     public List<MinionController> selectedMinions;
     public GameObject target;
+    public bool allMinionsSelected = true;
 
     [Header("Mouse Settings")]
     public bool clicked;
@@ -34,6 +35,7 @@ public class GameController : MonoBehaviour
         Mouse();
     }
     
+    // TODO All of this
     private void Mouse() {
         
         // Mouse references
@@ -41,82 +43,112 @@ public class GameController : MonoBehaviour
         RaycastHit2D enemyRaycast = Physics2D.Raycast(mousePosition, Vector2.zero, 0,enemyLayer);
         RaycastHit2D minionRaycast = Physics2D.Raycast(mousePosition, Vector2.zero,0, minionLayer);
 
-        
-        // If mouse over enemy
-        if (enemyRaycast.collider != null){
-            if (Input.GetMouseButtonDown(0)){
-                // Check if the enemy is already selected
-                switch (enemyRaycast.collider.gameObject == target){
-                    case true:
-                        // Deselecting minion targets from enemy 
-                        target = null;
-                        foreach(MinionController minion in selectedMinions){
-                            minion.enemyTarget = null;
-                        }
-                        break;
-                    case false:
-                        // Setting selected minion targets to the enemy
-                        target =enemyRaycast.collider.gameObject;
-                        foreach(MinionController minion in selectedMinions){
-                            minion.enemyTarget = enemyRaycast.collider.gameObject;
-                        }
-                        break;
+        // If selected minions becomes null, select all minions
+        if (selectedMinions == null || selectedMinions.Count <= 0){
+            // Select all minions
+            GameObject[] gameobjects = GameObject.FindGameObjectsWithTag("Minion");
+
+            foreach (GameObject minion in gameobjects){
+                if (!selectedMinions.Contains(minion.GetComponent<MinionController>())){
+                    selectedMinions.Add(minion.GetComponent<MinionController>());
                 }
             }
         }
 
-        // If mouse over minion
-        if (minionRaycast.collider != null){
-            // If clicking
-            if (Input.GetMouseButtonDown(0)){
-                // Check if the minion is already selected
-                switch (minionRaycast.collider.gameObject.GetComponent<MinionController>().selected){
-                    case true:
-                        // Deselect minion  
-                        selectedMinions.Remove(minionRaycast.collider.gameObject.GetComponent<MinionController>());
-                        minionRaycast.collider.gameObject.GetComponent<MinionController>().selected = false;
-                        break;
-                    case false:
-                        // Select minion
-                        if (!selectedMinions.Contains(minionRaycast.collider.gameObject.GetComponent<MinionController>())){
-
-                        }
-                        selectedMinions.Add(minionRaycast.collider.gameObject.GetComponent<MinionController>());
-                        minionRaycast.collider.gameObject.GetComponent<MinionController>().selected = true;
-                        break;
-                }
-            }
-        }
-
-        // If mouse over nothing
-        if (minionRaycast.collider == null && enemyRaycast.collider == null){
-            if (clicked){
-                clickTime += Time.deltaTime;
-                
-                // Chuck for double click
-                if (Input.GetMouseButtonDown(0)){
-                    selectedMinions = null;
-                    selectedMinions = player.GetComponent<PlayerController>().minions;
+        // If clicking 
+        if (Input.GetMouseButtonDown(0)){
+            // Clicked on enemy
+            if (enemyRaycast.collider != null){
+                // If clicked on already selected enemy, deselect enemy
+                if (enemyRaycast.collider.gameObject == target){
+                    target.GetComponent<EnemyHealth>().selected = false;
+                    target = null;
                     foreach (MinionController minion in selectedMinions){
+                        minion.enemyTarget = target;
+                    }
+                }  
+                // If clicked on not selected enemy, select enemy
+                else {
+                    target = enemyRaycast.collider.gameObject;
+                    target.GetComponent<EnemyHealth>().selected = true;
+                    foreach (MinionController minion in selectedMinions){
+                        minion.enemyTarget = target;
+                    }
+                }
+            }
+            // CLicked on minion
+            else if (minionRaycast.collider != null){
+                MinionController minion = minionRaycast.collider.gameObject.GetComponent<MinionController>();
+                Debug.Log("Clicked on Minion");
+                // Check if minion has been selected and deselect or select accordingly
+                if (selectedMinions.Contains(minion)){
+                    // If all minions are selected right not, deselect them
+                    if (allMinionsSelected){
+                        selectedMinions.Clear();
+                        selectedMinions.Add(minion);
+                        minion.selected = true;
+                        allMinionsSelected = false;
+                    }
+                    // If not, deselect the minion
+                    else {
+                        selectedMinions.Remove(minion);
                         minion.selected = false;
                     }
-                    clickTime = 0;
-                    clicked = false;
-                }
-                else if (clickTime >= clickDelayTime){
-                    clickTime = 0;
-                    clicked = false;
-                }
-            }else if (Input.GetMouseButtonDown(0)){
-                clicked = true;
-            }   
-
-            if (Input.GetMouseButton(0) && !clicked){
-                foreach (MinionController minion in selectedMinions){
-                    minion.enemyTarget = null;
-                    minion.target = mousePosition;
+                }   else {
+                    selectedMinions.Add(minion);
+                    minion.selected = true;
                 }
             }
         }
+        // If holding down mouse
+        else if (Input.GetMouseButton(0)){
+            // Move all selected minions to mouse position
+            if (!clicked){
+                foreach(MinionController minion in selectedMinions){
+                    target = null;
+                    minion.target  =mousePosition;
+                    minion.enemyTarget = target;
+                }
+            }
+        }
+
+        // Double Clicking 
+
+        // If click has not registered as double click, register it
+        if (!clicked && Input.GetMouseButtonDown(0)){
+            clicked = true;
+        }   
+        // If double click process has started, continue
+        else if (clicked) {
+            clickTime += Time.deltaTime;
+            
+            // If double click, reset selected minions
+            if (Input.GetMouseButtonDown(0)){
+                allMinionsSelected = true;
+                clickTime = 0;
+                clicked = false;
+            }
+            // If time passes the click delay time, reset click process
+            if (clickTime > clickDelayTime){
+                clickTime = 0;
+                clicked = false;
+            }
+        }
+
+        // If all minions are supposed to be selected
+        if (allMinionsSelected){
+            // Select all minions
+            GameObject[] gameobjects = GameObject.FindGameObjectsWithTag("Minion");
+
+            foreach (GameObject minion in gameobjects){
+                if (!selectedMinions.Contains(minion.GetComponent<MinionController>())){
+                    selectedMinions.Add(minion.GetComponent<MinionController>());
+                }
+            }
+            // Show minions as not selected (Because all of them are already selected)
+            foreach (MinionController minion in selectedMinions){
+                minion.selected = false;
+            }
+        }  
     }
 }

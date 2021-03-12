@@ -11,19 +11,21 @@ public class MinionController : MonoBehaviour
     private GameObject Player;
     private SpriteRenderer sr;
     private Animator anim;
-    public Animator selectDisplay;
     public Vector2 target;
     public float spawnTime;
+    public bool wasEnemy;
+    public GameObject gameController;
 
 
     [Header("General Settings")]
-    public bool selected;
     public minionType type;
     public Vector2 mainVelocity;
     public bool merge;
     private bool merging;
     public bool active;
+    public Animator selectDisplay;
     public Vector2 currentDirection;
+    public bool selected;
 
 
     [Header("Movement Settings")]
@@ -33,6 +35,8 @@ public class MinionController : MonoBehaviour
 
     [Header("Attack Settings")]
     public GameObject enemyTarget;
+    public GameObject attackBox;
+    public float attackBoxDistance;
     public bool attacking;
     public int attackDamage;
     public float attackKnockback;
@@ -55,6 +59,7 @@ public class MinionController : MonoBehaviour
         Player = GameObject.FindGameObjectWithTag("Player");
         sr = gameObject.GetComponent<SpriteRenderer>();
         anim = gameObject.GetComponent<Animator>();
+        gameController = GameObject.FindGameObjectWithTag("thing");
         StartCoroutine(Spawn());
     }
 
@@ -66,20 +71,31 @@ public class MinionController : MonoBehaviour
         active = true;
     }
 
+    void weaponControl(){
+        
+        attackBox.transform.position =
+            new Vector2(transform.position.x + (currentDirection.x * attackBoxDistance),
+                        transform.position.y + (currentDirection.y * attackBoxDistance));
+
+        attackBox.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(currentDirection.y, currentDirection.x) * 60);
+    }
+
     // Update is called once per frame
     void Update()
-    {
-        if (active)
+    {   
+        if (!gameController.GetComponent<GameController>().selectedMinions.Contains(gameObject.GetComponent<MinionController>()) || !Input.GetMouseButton(0)){
+            target = Player.transform.position;
+        }
+        if (active )
         {
-            target = Player.GetComponent<PlayerController>().currentTarget;
             Main();
             Animators();
-        }   else
+        }   else if (!wasEnemy)
         {
             transform.position = Player.GetComponent<PlayerController>().weapon.transform.position;
         }
+        selectDisplay.SetBool("Selected",selected);
 
-        selectDisplay.SetBool("Selected" , selected);
     }
 
     void Animators()
@@ -184,6 +200,8 @@ public class MinionController : MonoBehaviour
         mainVelocity = direction * attackLungeSpeed;
 
         currentDirection = direction;
+
+        attackBox.GetComponent<Animator>().SetTrigger("Attack");
 
         yield return new WaitForSeconds(attackLungeTime);
 

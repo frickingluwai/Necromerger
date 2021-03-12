@@ -154,8 +154,11 @@ MonoBehaviour:
   knockbackTime: 0.1
   hitParticle: {fileID: 8653459252339502095, guid: d2228b7db0e9df5418f7b73d77d0c953,
     type: 3}
+  dead: 0
   selected: 0
   selectDisplay: {fileID: 4893081082676786896}
+  minionPrefab: {fileID: 0}
+  necromanceDistance: 0
 --- !u!114 &3417318960839072202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -462,7 +465,7 @@ PrefabInstance:
     - target: {fileID: 2078663113938612366, guid: 9676c03a86824c84f95b301e54ac1f5a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.17
       objectReference: {fileID: 0}
     - target: {fileID: 2078663113938612366, guid: 9676c03a86824c84f95b301e54ac1f5a,
         type: 3}

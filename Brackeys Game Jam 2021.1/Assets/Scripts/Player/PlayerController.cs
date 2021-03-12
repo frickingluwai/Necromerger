@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    // TODO Enemy necromancing
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     private Animator anim;
@@ -38,6 +39,7 @@ public class PlayerController : MonoBehaviour
     public int level3Minions;
     public int amountOfMinionsNeededForLevel2;
     public int amountOfMinionsNeededForLevel3;
+    
 
 
     // Start is called before the first frame update
@@ -196,12 +198,14 @@ public class PlayerController : MonoBehaviour
         {
             mergeButton2.interactable = false;
         }
-
-        foreach (MinionController minion in minions.ToArray())
-        {
-            if (minion == null)
+        
+        if (minions.Count != 0){
+            foreach (MinionController minion in minions.ToArray())
             {
-                minions.Remove(minion);
+                if (minion.gameObject == null)
+                {
+                    //minions.Remove(minion);
+                }
             }
         }
     }

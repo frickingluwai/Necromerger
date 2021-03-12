@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
+    // TODO Enemy necromancing
+    [Header("Health Settings")]
     private GameObject player;
     private Animator anim;
     private Rigidbody2D rb;
@@ -11,8 +13,17 @@ public class EnemyHealth : MonoBehaviour
     public bool hit;
     public float knockbackTime;
     public GameObject hitParticle;
+    public bool dead;
+
+    [Header("Select Settings")]
     public bool selected;
     public Animator selectDisplay;
+
+
+    [Header("Necromance Settings")]
+    public GameObject minionPrefab;
+
+    public float necromanceDistance;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,12 +51,22 @@ public class EnemyHealth : MonoBehaviour
         {
             player.GetComponent<PlayerController>().magic += 2;
             Instantiate(hitParticle, transform.position, Quaternion.identity);
-            Destroy(gameObject);
+            gameObject.tag = "Minion";
+            Destroy(gameObject.GetComponent<MeleeEnemyController>());
+            dead = true;
         }
         yield return new WaitForSeconds(knockbackTime);
         hit = false;
     }
 
+
+    public void WhenDead(){
+        if (dead) {
+            if (Vector3.Distance(transform.position, player.transform.position) < necromanceDistance){
+                return;
+            }
+        }
+    }
     IEnumerator hitStop()
     {
         yield return new WaitForSeconds(1);
@@ -53,5 +74,24 @@ public class EnemyHealth : MonoBehaviour
         {
             hit = false;
         }
+    }
+
+    private void OnMouseDown() {
+        if (dead) {
+            if (Vector3.Distance(transform.position, player.transform.position) < necromanceDistance){
+                MinionController minion = Instantiate(minionPrefab, transform.position, Quaternion.identity).GetComponent<MinionController>();
+                player.GetComponent<PlayerController>().minions.Add(minion);
+                minion.selected = false;
+                minion.wasEnemy = true;
+                Destroy(gameObject);
+            }
+        }   
+        else {
+            if (selected){
+                selected = false;
+            }   else {
+                selected = true;
+            }
+        }   
     }
 }

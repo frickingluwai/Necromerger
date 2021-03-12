@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WaveManger : MonoBehaviour
 {
-
+    // TODO Rework this
     public GameObject[] meleeEnemies;
 
     public bool active;
