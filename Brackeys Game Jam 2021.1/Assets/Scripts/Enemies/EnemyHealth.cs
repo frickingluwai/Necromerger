@@ -54,6 +54,7 @@ public class EnemyHealth : MonoBehaviour
             gameObject.tag = "Minion";
             Destroy(gameObject.GetComponent<MeleeEnemyController>());
             dead = true;
+            anim.SetBool("Dead", true);
         }
         yield return new WaitForSeconds(knockbackTime);
         hit = false;
@@ -63,7 +64,7 @@ public class EnemyHealth : MonoBehaviour
     public void WhenDead(){
         if (dead) {
             if (Vector3.Distance(transform.position, player.transform.position) < necromanceDistance){
-                return;
+                selected = true;
             }
         }
     }
@@ -78,7 +79,7 @@ public class EnemyHealth : MonoBehaviour
 
     private void OnMouseDown() {
         if (dead) {
-            if (Vector3.Distance(transform.position, player.transform.position) < necromanceDistance){
+            if (Vector3.Distance(transform.position, player.transform.position) < necromanceDistance && player.GetComponent<PlayerController>().magic >= 2){
                 MinionController minion = Instantiate(minionPrefab, transform.position, Quaternion.identity).GetComponent<MinionController>();
                 player.GetComponent<PlayerController>().minions.Add(minion);
                 minion.selected = false;

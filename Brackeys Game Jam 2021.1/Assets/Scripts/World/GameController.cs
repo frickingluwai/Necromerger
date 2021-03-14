@@ -140,15 +140,19 @@ public class GameController : MonoBehaviour
             // Select all minions
             GameObject[] gameobjects = GameObject.FindGameObjectsWithTag("Minion");
 
-            foreach (GameObject minion in gameobjects){
+            if (gameobjects.Length > 0 && gameobjects != null){
+                foreach (GameObject minion in gameobjects){
                 if (!selectedMinions.Contains(minion.GetComponent<MinionController>())){
                     selectedMinions.Add(minion.GetComponent<MinionController>());
                 }
+                }
+                
+                // Show minions as not selected (Because all of them are already selected)
+                foreach (MinionController minion in selectedMinions){
+                    minion.selected = false;
+                }
             }
-            // Show minions as not selected (Because all of them are already selected)
-            foreach (MinionController minion in selectedMinions){
-                minion.selected = false;
-            }
+            
         }  
     }
 }

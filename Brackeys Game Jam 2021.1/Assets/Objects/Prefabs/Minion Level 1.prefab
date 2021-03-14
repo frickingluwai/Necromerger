@@ -153,6 +153,7 @@ MonoBehaviour:
   target: {x: 0, y: 0}
   spawnTime: 1
   wasEnemy: 0
+  gameController: {fileID: 0}
   type: 0
   mainVelocity: {x: 0, y: 0}
   merge: 0
@@ -177,7 +178,7 @@ MonoBehaviour:
   attackLungeSpeed: 3
   attackLungeTime: 0.1
   repelDistance: 1
-  repelStrength: 0.25
+  repelStrength: 0.5
   minionLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -5011,7 +5012,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: -1900035956748308934, guid: cebc861d6e03f8f4f89a9b73e92d256c,
     type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

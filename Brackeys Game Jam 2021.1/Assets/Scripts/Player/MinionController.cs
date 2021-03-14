@@ -83,6 +83,7 @@ public class MinionController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
+        weaponControl();
         if (!gameController.GetComponent<GameController>().selectedMinions.Contains(gameObject.GetComponent<MinionController>()) || !Input.GetMouseButton(0)){
             target = Player.transform.position;
         }
