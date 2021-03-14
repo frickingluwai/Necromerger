@@ -27,13 +27,13 @@ public class CameraController : MonoBehaviour
     }
 
     void FollowTarget(){
-        Vector3 targetPosition = target.transform.position;
+        Vector3 targetPosition = target.transform.position + cameraOffset;
         if (Mathf.Abs(targetPosition.x) >= cameraConstraints.x){
-            targetPosition = new Vector3(cameraConstraints.x * Mathf.Sign(transform.position.x), targetPosition.y);
+            targetPosition = new Vector3(cameraConstraints.x * Mathf.Sign(transform.position.x), targetPosition.y, targetPosition.z);
         }
 
         if (Mathf.Abs(targetPosition.y) >= cameraConstraints.y){
-            targetPosition = new Vector3(targetPosition.x, cameraConstraints.y * Mathf.Sign(transform.position.y));
+            targetPosition = new Vector3(targetPosition.x, cameraConstraints.y * Mathf.Sign(transform.position.y), targetPosition.z);
         }
 
         transform.position = Vector3.Lerp(transform.position, targetPosition, cameraSpeed);

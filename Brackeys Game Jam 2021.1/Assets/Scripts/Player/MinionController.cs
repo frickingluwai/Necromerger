@@ -274,7 +274,7 @@ public class MinionController : MonoBehaviour
                     Vector2 direction = new Vector2(minionPosition.position.x - transform.position.x, minionPosition.position.y - transform.position.y).normalized;
 
                     // Don't divide by zero
-                    if (Vector2.Distance(transform.position, minionPosition.position) != 0 && Vector2.Distance(transform.position, minionPosition.position) < repelDistance)
+                    if (Vector2.Distance(transform.position, minionPosition.position) >= 0.1f && Vector2.Distance(transform.position, minionPosition.position) < repelDistance)
                     {
                         Vector2 repelVelocity = new Vector2(-repelStrength * direction.x, -repelStrength * direction.y) / Vector2.Distance(transform.position, minionPosition.position);
                         mainVelocity = new Vector2(mainVelocity.x + repelVelocity.x, mainVelocity.y + repelVelocity.y);

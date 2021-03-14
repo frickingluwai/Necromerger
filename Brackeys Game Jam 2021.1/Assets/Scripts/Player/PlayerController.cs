@@ -171,6 +171,8 @@ public class PlayerController : MonoBehaviour
     public Button spawnButton;
     public Button mergeButton;
     public Button mergeButton2;
+    public List<MinionController.minionType> minionList;
+    public bool coroutineRunning;
     void minionManager()
     {
         if (magic >= 5)
@@ -202,29 +204,27 @@ public class PlayerController : MonoBehaviour
         if (minions.Count != 0){
             foreach (MinionController minion in minions.ToArray())
             {
-                if (minion.gameObject == null)
+                if (minion == null)
                 {
-                    //minions.Remove(minion);
+                    minions.Remove(minion);
                 }
             }
         }
-    }
-    public void spawnMinion()
-    {
-        if (magic >= 5)
-        {
-            minions.Add(Instantiate(minionLevel1, weapon.transform.position, Quaternion.identity).GetComponent<MinionController>());
-            level1Minions += 1;
-            magic -= 5;
 
-            gameObject.GetComponent<AudioSource>().Play();
+        if (minionList.Count != 0 && !coroutineRunning){
+            StartCoroutine(spawn(minionList[0]));
         }
     }
-
-    public void mergeLevel2()
-    {
-        if (magic >= 10 && level1Minions >= amountOfMinionsNeededForLevel2)
-        {
+    public IEnumerator spawn(MinionController.minionType spawnMinion){
+        coroutineRunning = true;
+        // Spawn type 1 minion
+        if (spawnMinion == MinionController.minionType.Level1){
+            minions.Add(Instantiate(minionLevel1, weapon.transform.position, Quaternion.identity).GetComponent<MinionController>());
+            level1Minions += 1;
+            gameObject.GetComponent<AudioSource>().Play();
+        }
+        // Spawn type 2 minion   
+        else if (spawnMinion == MinionController.minionType.Level2){
             int enemyCount = 0;
             foreach (MinionController minion in minions.ToArray())
             {
@@ -239,21 +239,15 @@ public class PlayerController : MonoBehaviour
                     break;
                 }
             }
-            magic -= 10;
+            
             gameObject.GetComponent<AudioSource>().Play();
 
             minions.Add(Instantiate(minionLevel2, weapon.transform.position, Quaternion.identity).GetComponent<MinionController>());
             level2Minions += 1;
             level1Minions -= amountOfMinionsNeededForLevel2;
-
-            
-        }
-    }
-
-    public void mergeLevel3()
-    {
-        if (magic >= 15 && level2Minions >= amountOfMinionsNeededForLevel3)
-        {
+        }   
+        // Spawn type 3 minions
+        else if (spawnMinion == MinionController.minionType.Level3){
             int enemyCount = 0;
             foreach (MinionController minion in minions.ToArray())
             {
@@ -268,12 +262,41 @@ public class PlayerController : MonoBehaviour
                     break;
                 }
             }
-
-            magic -= 15;
+            
             gameObject.GetComponent<AudioSource>().Play();
             minions.Add(Instantiate(minionLevel3, weapon.transform.position, Quaternion.identity).GetComponent<MinionController>());
             level3Minions += 1;
             level2Minions -= amountOfMinionsNeededForLevel3;
+        }
+        yield return new WaitForSeconds(1);
+        minionList.Remove(0);
+        coroutineRunning = false;
+    }
+    
+    public void spawnMinion()
+    {
+        if (magic >= 5)
+        {
+            magic -= 5;
+            minionList.Add(MinionController.minionType.Level1);
+        }
+    }
+
+    public void mergeLevel2()
+    {
+        if (magic >= 10 && level1Minions >= amountOfMinionsNeededForLevel2)
+        {
+            magic -= 10;
+            minionList.Add(MinionController.minionType.Level2);
+        }
+    }
+
+    public void mergeLevel3()
+    {
+        if (magic >= 15 && level2Minions >= amountOfMinionsNeededForLevel3)
+        {
+            magic -= 15;
+            minionList.Add(MinionController.minionType.Level3);
         }
     }
 
