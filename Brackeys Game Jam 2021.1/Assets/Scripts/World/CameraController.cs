@@ -10,10 +10,12 @@ public class CameraController : MonoBehaviour
     [Header("Camera Settings")]
     public float cameraSpeed;
     public Vector2 cameraConstraints;
+
+    public Vector3 cameraOffset;
     // Start is called before the first frame update
     void Start()
     {
-        
+        target = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
@@ -26,11 +28,11 @@ public class CameraController : MonoBehaviour
 
     void FollowTarget(){
         Vector3 targetPosition = target.transform.position;
-        if (Mathf.Abs(transform.position.x) >= cameraConstraints.x){
+        if (Mathf.Abs(targetPosition.x) >= cameraConstraints.x){
             targetPosition = new Vector3(cameraConstraints.x * Mathf.Sign(transform.position.x), targetPosition.y);
         }
 
-        if (Mathf.Abs(transform.position.y) >= cameraConstraints.y){
+        if (Mathf.Abs(targetPosition.y) >= cameraConstraints.y){
             targetPosition = new Vector3(targetPosition.x, cameraConstraints.y * Mathf.Sign(transform.position.y));
         }
 
