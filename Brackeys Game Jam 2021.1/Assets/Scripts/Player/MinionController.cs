@@ -66,7 +66,9 @@ public class MinionController : MonoBehaviour
     IEnumerator Spawn()
     {
         sr.enabled = false;
+        selectDisplay.gameObject.GetComponent<SpriteRenderer>().enabled = false;
         yield return new WaitForSeconds(spawnTime);
+        selectDisplay.gameObject.GetComponent<SpriteRenderer>().enabled = true;
         sr.enabled = true;
         active = true;
     }

@@ -149,7 +149,9 @@ public class GameController : MonoBehaviour
                 
                 // Show minions as not selected (Because all of them are already selected)
                 foreach (MinionController minion in selectedMinions){
+                    if (minion != null){
                     minion.selected = false;
+                    }
                 }
             }
             

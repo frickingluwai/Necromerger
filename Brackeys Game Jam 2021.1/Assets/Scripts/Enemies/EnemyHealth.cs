@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
+    public GameObject weapon;
     // TODO Enemy necromancing
     [Header("Health Settings")]
     private GameObject player;
@@ -34,6 +35,7 @@ public class EnemyHealth : MonoBehaviour
 
     private void Update() {
         selectDisplay.SetBool("Selected", selected);
+        WhenDead();
     }
     // Called when hit by player
     public IEnumerator OnHit(int damage, float knockback, Vector2 direction)
@@ -51,10 +53,12 @@ public class EnemyHealth : MonoBehaviour
         {
             player.GetComponent<PlayerController>().magic += 2;
             Instantiate(hitParticle, transform.position, Quaternion.identity);
-            gameObject.tag = "Minion";
+            gameObject.tag = "Untagged";
             Destroy(gameObject.GetComponent<MeleeEnemyController>());
             dead = true;
             anim.SetBool("Dead", true);
+            Destroy(weapon);
+            rb.velocity = Vector2.zero;
         }
         yield return new WaitForSeconds(knockbackTime);
         hit = false;
@@ -65,6 +69,8 @@ public class EnemyHealth : MonoBehaviour
         if (dead) {
             if (Vector3.Distance(transform.position, player.transform.position) < necromanceDistance){
                 selected = true;
+            }   else {
+                selected = false;
             }
         }
     }

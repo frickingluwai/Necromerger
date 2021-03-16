@@ -57,7 +57,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad85a7084f11af949a5d186a863f9497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weapon: {fileID: 3417318961872541955}
   health: 10
   hit: 0
   knockbackTime: 0.1
@@ -157,8 +158,9 @@ MonoBehaviour:
   dead: 0
   selected: 0
   selectDisplay: {fileID: 4893081082676786896}
-  minionPrefab: {fileID: 0}
-  necromanceDistance: 0
+  minionPrefab: {fileID: 5960952122377054936, guid: 9bc1dbec42e959e4ab2b51dc10282b2d,
+    type: 3}
+  necromanceDistance: 1
 --- !u!114 &3417318960839072202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,7 +369,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -507,6 +509,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3801326948601793515, guid: 9676c03a86824c84f95b301e54ac1f5a,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 8114979889087550332, guid: 9676c03a86824c84f95b301e54ac1f5a,
         type: 3}
       propertyPath: m_Name
