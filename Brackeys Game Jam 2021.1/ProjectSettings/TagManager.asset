@@ -45,14 +45,17 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: ring
+    uniqueID: 2268133327
+    locked: 0
+  - name: Enemy
+    uniqueID: 1935118957
+    locked: 0
   - name: Minion
     uniqueID: 4099087219
     locked: 0
   - name: Player
     uniqueID: 3786763283
-    locked: 0
-  - name: Enemy
-    uniqueID: 1935118957
     locked: 0
   - name: UI
     uniqueID: 3018375349

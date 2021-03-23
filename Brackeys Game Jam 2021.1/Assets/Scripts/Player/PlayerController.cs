@@ -117,9 +117,11 @@ public class PlayerController : MonoBehaviour
     IEnumerator GeneratingMagic()
     {
         yield return new WaitForSeconds(magicRate);
-        if (magic <= 20)
+        if (magic < 20)
         {
             magic += 1;
+        }   else {
+            magic = 20;
         }
         StartCoroutine(GeneratingMagic());
     }
@@ -269,7 +271,7 @@ public class PlayerController : MonoBehaviour
             level2Minions -= amountOfMinionsNeededForLevel3;
         }
         yield return new WaitForSeconds(1);
-        minionList.Remove(0);
+        minionList.Remove(spawnMinion);
         coroutineRunning = false;
     }
     

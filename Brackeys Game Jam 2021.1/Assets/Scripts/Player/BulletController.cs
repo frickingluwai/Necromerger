@@ -25,7 +25,7 @@ public class BulletController : MonoBehaviour
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
             gameObject.GetComponent<ParticleSystem>().Stop();
             StartCoroutine(collision.GetComponent<EnemyHealth>().OnHit(attackDamage, attackKnockback, transform.position));
-            StartCoroutine(Destroy());
+            StartCoroutine(destroy());
         }
 
         if (collision.tag == "Wall")
@@ -33,12 +33,14 @@ public class BulletController : MonoBehaviour
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
             gameObject.GetComponent<ParticleSystem>().Stop();
-            StartCoroutine(Destroy());
+            StartCoroutine(destroy());
         }
     }
 
-    IEnumerator Destroy()
+    IEnumerator destroy()
     {
+        rb.velocity = Vector2.zero;
+        Destroy(transform.GetChild(0));
         yield return new WaitForSeconds(1);
         Destroy(gameObject);
     }

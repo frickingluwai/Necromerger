@@ -45,6 +45,9 @@ public class GameManager : MonoBehaviour
             canvas.worldCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
             button1.SetActive(false);
             button2.SetActive(true);
+        }   else {
+            button1.SetActive(false);
+            button2.SetActive(false);
         }
 
         if (win)
@@ -86,6 +89,15 @@ public class GameManager : MonoBehaviour
         transition = true;
         anim.SetBool("fadeout", true);
         yield return new WaitForSeconds(1);
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(0)){
+            SceneManager.LoadScene("IntroText");
+                
+            anim.SetBool("fadeout", false);
+            yield return new WaitForSeconds(3);
+            
+            anim.SetBool("fadeout", true);
+            yield return new WaitForSeconds(1);
+        }
         anim.SetBool("fadeout", false);
         SceneManager.LoadScene("Game");
         transition = false;

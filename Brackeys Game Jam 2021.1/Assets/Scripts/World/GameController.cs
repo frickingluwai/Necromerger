@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour
     public List<MinionController> selectedMinions;
     public GameObject target;
     public bool allMinionsSelected = true;
+    public bool minionsAttacking;
 
     [Header("Mouse Settings")]
     public bool clicked;
@@ -35,7 +36,6 @@ public class GameController : MonoBehaviour
         Mouse();
     }
     
-    // TODO All of this
     private void Mouse() {
         
         // Mouse references
@@ -55,6 +55,18 @@ public class GameController : MonoBehaviour
             }
         }
 
+        
+        
+
+        if (selectedMinions.Count != 0){
+            foreach (MinionController minion in selectedMinions.ToArray())
+            {
+                if (minion == null)
+                {
+                    selectedMinions.Remove(minion);
+                }
+            }
+        }
         // If clicking 
         if (Input.GetMouseButtonDown(0)){
             // Clicked on enemy
@@ -65,6 +77,7 @@ public class GameController : MonoBehaviour
                     target = null;
                     foreach (MinionController minion in selectedMinions){
                         minion.enemyTarget = target;
+                        minionsAttacking = true;
                     }
                 }  
                 // If clicked on not selected enemy, select enemy
@@ -74,6 +87,7 @@ public class GameController : MonoBehaviour
                     foreach (MinionController minion in selectedMinions){
                         minion.enemyTarget = target;
                     }
+                    minionsAttacking = false;
                 }
             }
             // CLicked on minion

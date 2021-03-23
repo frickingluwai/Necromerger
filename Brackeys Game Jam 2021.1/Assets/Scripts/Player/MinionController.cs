@@ -156,7 +156,7 @@ public class MinionController : MonoBehaviour
     {
         // Attacking  
 
-        if (enemyTarget != null){
+        if (enemyTarget != null && enemyTarget.GetComponent<MeleeEnemyController>() != null){
             target = enemyTarget.transform.position;
 
             // If not in renge of the enemy, follow enemy

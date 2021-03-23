@@ -76,7 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1935118957
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -3613439356783834311, guid: e18b12a2403bdd342adba52b326bdf2c,
     type: 3}
@@ -160,7 +160,7 @@ MonoBehaviour:
   selectDisplay: {fileID: 4893081082676786896}
   minionPrefab: {fileID: 5960952122377054936, guid: 9bc1dbec42e959e4ab2b51dc10282b2d,
     type: 3}
-  necromanceDistance: 1
+  necromanceDistance: 2.5
 --- !u!114 &3417318960839072202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,8 +388,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1935118957
-  m_SortingLayer: 3
-  m_SortingOrder: -1
+  m_SortingLayer: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 4327778018022820751, guid: 78fa27c6b0f88a746bf6119132a092d6,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
