@@ -40,7 +40,7 @@ public class BulletController : MonoBehaviour
     IEnumerator destroy()
     {
         rb.velocity = Vector2.zero;
-        Destroy(transform.GetChild(0));
+        Destroy(transform.GetChild(0).gameObject);
         yield return new WaitForSeconds(1);
         Destroy(gameObject);
     }

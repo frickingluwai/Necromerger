@@ -177,7 +177,7 @@ MonoBehaviour:
     m_Bits: 512
   attackLungeSpeed: 3
   attackLungeTime: 0.1
-  repelDistance: 1
+  repelDistance: 2
   repelStrength: 0.5
   minionLayer:
     serializedVersion: 2

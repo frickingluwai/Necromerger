@@ -77,7 +77,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -508204013
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 7812407151013039457, guid: 2d3812659bf47b044afe4a7d2f4a648a,
     type: 3}
@@ -151,8 +151,8 @@ MonoBehaviour:
     m_Bits: 512
   attackLungeSpeed: 2
   attackLungeTime: 0.1
-  repelDistance: 1
-  repelStrength: 1
+  repelDistance: 2
+  repelStrength: 0.5
   minionLayer:
     serializedVersion: 2
     m_Bits: 1024

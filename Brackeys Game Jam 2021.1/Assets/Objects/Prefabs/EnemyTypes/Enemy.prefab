@@ -185,7 +185,7 @@ MonoBehaviour:
   currentDirection: {x: 0, y: 0}
   attacking: 0
   attackSpeed: 1
-  attackTime: 1
+  attackTime: 0.25
   knockbackStrength: 1
   knockbackTime: 0.1
   attackDistance: 1.25
@@ -193,7 +193,7 @@ MonoBehaviour:
   attackDamage: 2
   angleSpeed: 0.05
   lungeSpeed: 3
-  lungeTime: 0.2
+  lungeTime: 1
   Target: {fileID: 0}
   playerRepelDistance: 0.5
   playerRepelStrength: 0.5

@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject button1;
     public GameObject button2;
+    public SpriteRenderer thing;
     // Start is called before the first frame update
     void Awake()
     {
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviour
             button1.SetActive(false);
             button2.SetActive(true);
         }   else {
+            canvas.worldCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
             button1.SetActive(false);
             button2.SetActive(false);
         }
@@ -93,10 +95,14 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("IntroText");
                 
             anim.SetBool("fadeout", false);
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(1);
+            thing.color = Color.clear;
+            yield return new WaitForSeconds(2);
+            
             
             anim.SetBool("fadeout", true);
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.95f);
+            thing.color = Color.black;
         }
         anim.SetBool("fadeout", false);
         SceneManager.LoadScene("Game");

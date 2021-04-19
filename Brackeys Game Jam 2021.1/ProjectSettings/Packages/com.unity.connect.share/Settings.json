@@ -6,7 +6,7 @@
             {
                 "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
                 "key": "buildOutputDirList",
-                "value": "{\"m_Value\":\"C:/Users/Lu-Wai/Documents/Completed Games/Necromerger;C:/Users/Lu-Wai/Documents/Completed Games/THing;C:/Users/Lu-Wai/Documents/Completed Games;C:/Users/Lu-Wai/Videos/webgl tests;;;;;;\"}"
+                "value": "{\"m_Value\":\"C:/Users/Lu-Wai/Documents/Completed Games/Necromerger/Version 1.5;C:/Users/Lu-Wai/Documents/Completed Games/Necromerger;C:/Users/Lu-Wai/Documents/Completed Games/THing;C:/Users/Lu-Wai/Documents/Completed Games;C:/Users/Lu-Wai/Videos/webgl tests;;;;;\"}"
             }
         ]
     }
